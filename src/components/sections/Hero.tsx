@@ -9,17 +9,18 @@ export default function Hero({ t }: { t: Dict }) {
   const h = t.hero;
   return (
     <section aria-labelledby="hero-title" className="relative overflow-hidden pb-14 pt-24 sm:pt-28 lg:pb-24 lg:pt-36">
-      {/* Fon: yumshoq yorug'lik va to'r — rasmsiz, juda yengil */}
+      {/* Fon: pech taftini eslatuvchi iliq yorug'lik va nozik to'r — rasmsiz, juda yengil */}
       <div aria-hidden className="pointer-events-none absolute inset-0">
-        <div className="absolute -top-40 right-[-10%] h-[560px] w-[560px] rounded-full bg-amber/10 blur-[120px]" />
-        <div className="absolute inset-0 opacity-[0.05] [background-image:linear-gradient(#fff_1px,transparent_1px),linear-gradient(90deg,#fff_1px,transparent_1px)] [background-size:48px_48px] [mask-image:radial-gradient(70%_60%_at_50%_30%,#000,transparent)]" />
+        <div className="absolute -top-40 right-[-10%] h-[560px] w-[560px] rounded-full bg-accent/20 blur-[120px] dark:bg-accent/10" />
+        <div className="absolute -left-40 bottom-0 h-[380px] w-[380px] rounded-full bg-orange-400/10 blur-[110px] dark:bg-orange-500/5" />
+        <div className="bg-grid absolute inset-0 opacity-[0.05] [background-size:48px_48px] [mask-image:radial-gradient(70%_60%_at_50%_30%,#000,transparent)]" />
       </div>
 
       <div className="container-x relative grid items-center gap-10 lg:grid-cols-[1.15fr_.85fr] lg:gap-14">
         <div>
           <div className="flex flex-wrap items-center gap-2">
             <OpenStatus t={t.status} />
-            <span className="rounded-full border border-amber/30 bg-amber/10 px-3 py-1 text-xs font-semibold text-amber">
+            <span className="rounded-full border border-accent/40 bg-accent/10 px-3 py-1 text-xs font-semibold text-brand">
               {h.badge}
             </span>
           </div>
@@ -27,11 +28,14 @@ export default function Hero({ t }: { t: Dict }) {
           {/* Sahifadagi yagona H1 */}
           <h1
             id="hero-title"
-            className="mt-6 text-[2.15rem] font-extrabold leading-[1.08] tracking-tight text-balance sm:text-5xl lg:text-6xl"
+            className="mt-6 text-[2.2rem] font-extrabold leading-[1.08] tracking-tight text-balance sm:text-5xl lg:text-6xl"
           >
-            {h.h1}
+            {h.h1Lead}{" "}
+            <span className="bg-gradient-to-r from-orange-600 via-amber-700 to-orange-700 bg-clip-text text-transparent dark:from-amber-300 dark:via-amber-500 dark:to-orange-400">
+              {h.h1Accent}
+            </span>
           </h1>
-          <p className="mt-5 max-w-xl text-base leading-relaxed text-zinc-300 sm:text-lg">{h.lead}</p>
+          <p className="mt-5 max-w-xl text-base leading-relaxed text-muted sm:text-lg">{h.lead}</p>
 
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <a href={telegramMain} target="_blank" rel="noopener" className="btn-primary">
@@ -44,10 +48,10 @@ export default function Hero({ t }: { t: Dict }) {
             </a>
           </div>
 
-          <ul className="mt-8 flex flex-wrap gap-x-6 gap-y-2 text-sm text-zinc-300">
+          <ul className="mt-8 grid gap-2 text-sm text-muted sm:flex sm:flex-wrap sm:gap-x-6">
             {h.points.map((p) => (
               <li key={p} className="flex items-center gap-2">
-                <CheckIcon className="h-4 w-4 text-amber" />
+                <CheckIcon className="h-4 w-4 text-brand" />
                 {p}
               </li>
             ))}
@@ -64,7 +68,7 @@ export default function Hero({ t }: { t: Dict }) {
                 fill
                 priority
                 sizes="(min-width: 1024px) 40vw, 90vw"
-                className="object-contain drop-shadow-[0_30px_60px_rgba(0,0,0,.6)]"
+                className="object-contain drop-shadow-[0_30px_60px_rgba(0,0,0,.35)]"
               />
             </div>
           ) : (

@@ -72,10 +72,10 @@ export default function LeadForm({ lang, t }: { lang: Lang; t: Dict["contact"]["
   }
 
   const field =
-    "mt-2 block w-full rounded-xl border border-white/10 bg-ink px-4 py-3 text-base text-white placeholder:text-zinc-500 transition-colors focus:border-amber focus:outline-none focus:ring-2 focus:ring-amber/30";
+    "mt-2 block w-full rounded-xl border border-line bg-page px-4 py-3 text-base text-fg placeholder:text-subtle/80 transition-colors focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/30";
 
   return (
-    <form onSubmit={onSubmit} noValidate className="card space-y-5 p-5 sm:p-7">
+    <form onSubmit={onSubmit} noValidate className="card relative space-y-5 p-5 backdrop-blur-md sm:p-7">
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
           <label htmlFor={`${uid}-name`} className="text-sm font-semibold">
@@ -94,7 +94,7 @@ export default function LeadForm({ lang, t }: { lang: Lang; t: Dict["contact"]["
             className={field}
           />
           {errors.name && (
-            <p id={`${uid}-name-err`} className="mt-1.5 text-sm text-red-400">
+            <p id={`${uid}-name-err`} className="mt-1.5 text-sm text-red-700 dark:text-red-400">
               {errors.name}
             </p>
           )}
@@ -117,7 +117,7 @@ export default function LeadForm({ lang, t }: { lang: Lang; t: Dict["contact"]["
             className={field}
           />
           {errors.phone && (
-            <p id={`${uid}-phone-err`} className="mt-1.5 text-sm text-red-400">
+            <p id={`${uid}-phone-err`} className="mt-1.5 text-sm text-red-700 dark:text-red-400">
               {errors.phone}
             </p>
           )}
@@ -169,15 +169,15 @@ export default function LeadForm({ lang, t }: { lang: Lang; t: Dict["contact"]["
       </button>
 
       <div aria-live="polite" className="min-h-[1.25rem] text-sm">
-        {status === "success" && <p className="font-semibold text-emerald-400">{t.success}</p>}
+        {status === "success" && <p className="font-semibold text-emerald-700 dark:text-emerald-400">{t.success}</p>}
         {status === "demo" && (
-          <p className="font-semibold text-amber">
-            {t.success} <span className="block font-normal text-zinc-400">({t.demo})</span>
+          <p className="font-semibold text-brand">
+            {t.success} <span className="block font-normal text-subtle">({t.demo})</span>
           </p>
         )}
-        {status === "error" && <p className="font-semibold text-red-400">{t.error}</p>}
+        {status === "error" && <p className="font-semibold text-red-700 dark:text-red-400">{t.error}</p>}
       </div>
-      <p className="text-xs text-zinc-500">{t.privacy}</p>
+      <p className="text-xs text-subtle">{t.privacy}</p>
     </form>
   );
 }

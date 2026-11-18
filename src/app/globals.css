@@ -2,10 +2,46 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ============================================================
+   RANGLAR (RGB kanallari: "R G B")
+   Kunduzgi rejim — iliq qaymoqrang fon, pech taftini eslatuvchi oltin-olovrang aksent.
+   Tungi rejim — to'q industrial.
+   ============================================================ */
 @layer base {
   :root {
-    color-scheme: dark;
+    color-scheme: light;
+    --c-page: 251 247 240; /* #FBF7F0 qaymoqrang */
+    --c-surface: 245 237 224; /* #F5EDE0 qumrang */
+    --c-card: 255 255 255;
+    --c-fg: 28 25 23; /* #1C1917 */
+    --c-muted: 68 64 60; /* #44403C */
+    --c-subtle: 107 100 94; /* #6B645E */
+    --c-line: 231 221 204; /* #E7DDCC */
+    --c-accent: 245 158 11; /* #F59E0B */
+    --c-accent-hover: 217 119 6; /* #D97706 */
+    --c-accent-fg: 28 25 23;
+    --c-brand: 180 83 9; /* #B45309 — yorug' fonda o'qiladigan aksent matn (WCAG AA) */
+    --shadow-soft: 0 14px 34px -18px rgb(120 72 12 / 0.28);
+    --shadow-glow: 0 10px 28px -10px rgb(245 158 11 / 0.55);
   }
+
+  .dark {
+    color-scheme: dark;
+    --c-page: 12 12 13;
+    --c-surface: 20 20 22;
+    --c-card: 30 31 34;
+    --c-fg: 245 245 244;
+    --c-muted: 212 212 216;
+    --c-subtle: 161 161 170;
+    --c-line: 46 46 51;
+    --c-accent: 245 158 11;
+    --c-accent-hover: 251 191 36;
+    --c-accent-fg: 28 25 23;
+    --c-brand: 245 158 11;
+    --shadow-soft: 0 14px 34px -16px rgb(0 0 0 / 0.7);
+    --shadow-glow: 0 10px 30px -10px rgb(245 158 11 / 0.45);
+  }
+
   html {
     scroll-behavior: smooth;
     scroll-padding-top: 5.5rem; /* sticky header ostida qolmasligi uchun */
@@ -13,13 +49,13 @@
     -webkit-tap-highlight-color: transparent;
   }
   body {
-    @apply bg-ink font-sans text-white antialiased;
+    @apply bg-page font-sans text-fg antialiased;
   }
   ::selection {
-    @apply bg-amber text-ink;
+    @apply bg-accent text-accent-fg;
   }
   :focus-visible {
-    outline: 2px solid #f5b301;
+    outline: 2px solid rgb(var(--c-brand));
     outline-offset: 3px;
     border-radius: 8px;
   }
@@ -33,23 +69,55 @@
     @apply py-16 sm:py-20 lg:py-28;
   }
   .eyebrow {
-    @apply inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.18em] text-amber;
+    @apply inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.18em] text-brand;
   }
   .h2 {
     @apply mt-3 text-[1.85rem] font-extrabold leading-tight tracking-tight text-balance sm:text-4xl lg:text-5xl;
   }
   .lead {
-    @apply mt-4 max-w-2xl text-base leading-relaxed text-zinc-300 sm:text-lg;
+    @apply mt-4 max-w-2xl text-base leading-relaxed text-muted sm:text-lg;
   }
+  /* Glassmorphism kartochka */
   .card {
-    @apply rounded-2xl border border-white/[0.07] bg-steel/70 shadow-soft;
+    @apply rounded-2xl border border-line bg-card/70 shadow-soft;
+  }
+  .glass {
+    @apply border border-line/80 bg-card/60 backdrop-blur-md;
   }
   .btn-primary {
-    @apply inline-flex min-h-[48px] items-center justify-center gap-2 rounded-xl bg-amber px-5 py-3 text-base font-bold text-ink shadow-glow transition duration-200 hover:bg-amber-300 active:scale-[.98];
+    @apply inline-flex min-h-[48px] items-center justify-center gap-2 rounded-xl bg-accent px-5 py-3 text-base font-bold text-accent-fg shadow-glow transition duration-200 hover:bg-accent-hover active:scale-[.98];
   }
   .btn-ghost {
-    @apply inline-flex min-h-[48px] items-center justify-center gap-2 rounded-xl border border-white/15 bg-white/[0.04] px-5 py-3 text-base font-bold text-white transition duration-200 hover:border-amber/60 hover:text-amber active:scale-[.98];
+    @apply inline-flex min-h-[48px] items-center justify-center gap-2 rounded-xl border border-line bg-card/60 px-5 py-3 text-base font-bold text-fg backdrop-blur transition duration-200 hover:border-brand hover:text-brand active:scale-[.98];
   }
+  .icon-btn {
+    @apply inline-flex h-11 w-11 items-center justify-center rounded-xl border border-line bg-card/60 text-fg transition-colors hover:border-brand hover:text-brand;
+  }
+}
+
+@layer utilities {
+  /* Nozik to'r naqshi (fon bezagi) */
+  .bg-grid {
+    background-image: linear-gradient(rgb(var(--c-fg)) 1px, transparent 1px),
+      linear-gradient(90deg, rgb(var(--c-fg)) 1px, transparent 1px);
+  }
+  /* Rasm yo'q joyda ishlatiladigan iliq placeholder foni */
+  .bg-placeholder {
+    background: radial-gradient(120% 90% at 50% 0%, rgb(var(--c-card)) 0%, rgb(var(--c-surface)) 70%);
+  }
+}
+
+/* Rejim almashganda silliq o'tish (faqat almashish paytida yoqiladi — sahifani og'irlashtirmaydi) */
+.theme-transition,
+.theme-transition *,
+.theme-transition *::before,
+.theme-transition *::after {
+  transition:
+    background-color 0.35s ease,
+    border-color 0.35s ease,
+    color 0.35s ease,
+    fill 0.35s ease,
+    box-shadow 0.35s ease !important;
 }
 
 /* Scroll reveal — faqat JS mavjud bo'lsa yashiriladi (html.js) */
@@ -73,5 +141,9 @@
     opacity: 1;
     transform: none;
     transition: none;
+  }
+  .theme-transition,
+  .theme-transition * {
+    transition: none !important;
   }
 }

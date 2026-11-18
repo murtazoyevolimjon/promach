@@ -15,10 +15,19 @@ function tashkentHour(): number {
 }
 
 /**
- * "Hozir ochiq / yopiq" belgisi.
+ * "Hozir ochiq / yopiq" belgisi (real vaqtda, har daqiqada yangilanadi).
  * Server tomonda neytral holat ("Har kuni 10:00–19:00") chiqadi — hydration xatosi va CLS bo'lmaydi.
+ * compact — header uchun qisqa variant ("Ochiq" / "Yopiq").
  */
-export default function OpenStatus({ t, className = "" }: { t: Dict["status"]; className?: string }) {
+export default function OpenStatus({
+  t,
+  compact = false,
+  className = "",
+}: {
+  t: Dict["status"];
+  compact?: boolean;
+  className?: string;
+}) {
   const [open, setOpen] = useState<boolean | null>(null);
 
   useEffect(() => {
@@ -31,16 +40,28 @@ export default function OpenStatus({ t, className = "" }: { t: Dict["status"]; c
     return () => clearInterval(id);
   }, []);
 
-  const dot = open === null ? "bg-zinc-500" : open ? "bg-emerald-400" : "bg-red-400";
-  const text = open === null ? t.hours : open ? `${t.open} · ${t.until}` : `${t.closed} · ${t.opensAt}`;
+  const dot = open === null ? "bg-subtle" : open ? "bg-emerald-500" : "bg-red-500";
+  const text =
+    open === null
+      ? compact
+        ? `${site.hours.open}–${site.hours.close}`
+        : t.hours
+      : compact
+        ? open
+          ? t.openShort
+          : t.closedShort
+        : open
+          ? `${t.open} · ${t.until}`
+          : `${t.closed} · ${t.opensAt}`;
 
   return (
     <span
-      className={`inline-flex items-center gap-2 whitespace-nowrap rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 text-xs font-semibold text-zinc-200 ${className}`}
+      className={`glass inline-flex items-center gap-2 whitespace-nowrap rounded-full px-3 py-1 text-xs font-semibold text-fg ${className}`}
       aria-live="polite"
+      title={t.hours}
     >
       <span className="relative flex h-2 w-2">
-        {open && <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-60" />}
+        {open && <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-500 opacity-60" />}
         <span className={`relative inline-flex h-2 w-2 rounded-full ${dot}`} />
       </span>
       {text}

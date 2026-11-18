@@ -18,7 +18,7 @@ const galleryImages: (string | null)[] = [
 export default function Gallery({ t }: { t: Dict }) {
   const g = t.gallery;
   return (
-    <section id="gallery" aria-labelledby="gallery-title" className="section bg-graphite">
+    <section id="gallery" aria-labelledby="gallery-title" className="section bg-surface">
       <div className="container-x">
         <SectionHeading id="gallery-title" eyebrow={g.eyebrow} title={g.title} />
         <ul className="mt-10 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
@@ -27,7 +27,7 @@ export default function Gallery({ t }: { t: Dict }) {
             return (
               <li
                 key={caption}
-                className={`reveal group relative overflow-hidden rounded-2xl border border-white/[0.07] ${
+                className={`reveal group relative overflow-hidden rounded-2xl border border-line shadow-soft ${
                   big ? "col-span-2 row-span-2" : ""
                 }`}
               >
@@ -37,7 +37,8 @@ export default function Gallery({ t }: { t: Dict }) {
                   ) : (
                     <SmartImage src={galleryImages[i]} alt={caption} aspect="aspect-square" sizes="(min-width:1024px) 25vw, 50vw" />
                   )}
-                  <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/85 to-transparent p-3 pt-10 text-xs font-semibold text-zinc-100 sm:text-sm">
+                  {/* Rasm ustidagi yozuv — har doim to'q fon + oq matn (o'qilishi uchun) */}
+                  <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent p-3 pt-10 text-xs font-semibold text-white sm:text-sm">
                     {caption}
                   </figcaption>
                 </figure>

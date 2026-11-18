@@ -23,6 +23,7 @@ export default function Catalog({ lang, t }: { lang: Lang; t: Dict }) {
   );
   // "Hammasi" tanlanganda dastlab 6 ta ko'rinadi. Qolganlari HTML'da bor (SEO), faqat yashirilgan.
   const collapsed = active === "all" && !expanded && list.length > INITIAL;
+  const activeCat = categories.find((x) => x.id === active);
 
   const ask = (name: string) => {
     window.dispatchEvent(new CustomEvent(ASK_EVENT, { detail: name }));
@@ -55,8 +56,8 @@ export default function Catalog({ lang, t }: { lang: Lang; t: Dict }) {
                 onClick={() => setActive(f.id)}
                 className={`shrink-0 rounded-full border px-4 py-2.5 text-sm font-semibold transition-colors ${
                   on
-                    ? "border-amber bg-amber text-ink"
-                    : "border-white/10 bg-white/[0.03] text-zinc-300 hover:border-white/25 hover:text-white"
+                    ? "border-accent bg-accent text-accent-fg shadow-glow"
+                    : "border-line bg-card/60 text-muted backdrop-blur hover:border-brand hover:text-fg"
                 }`}
               >
                 {f.label}
@@ -64,28 +65,29 @@ export default function Catalog({ lang, t }: { lang: Lang; t: Dict }) {
             );
           })}
         </div>
+        {activeCat?.note && <p className="mt-3 text-sm text-subtle">{activeCat.note[lang]}</p>}
 
         <ul className="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3" aria-live="polite">
           {list.map((p, i) => {
             const cat = categories.find((x) => x.id === p.category)!;
             return (
               <li key={p.id} hidden={collapsed && i >= INITIAL}>
-                <article className="card group flex h-full flex-col overflow-hidden transition duration-300 hover:-translate-y-1 hover:border-amber/30">
+                <article className="card group flex h-full flex-col overflow-hidden transition duration-300 hover:-translate-y-1 hover:border-accent/50">
                   <SmartImage src={p.image} alt={`${p.name[lang]} — ${c.imageAlt}`} aspect="aspect-[16/10]" />
                   <div className="flex flex-1 flex-col p-5">
-                    <p className="text-xs font-semibold uppercase tracking-wider text-amber/90">{cat.name[lang]}</p>
+                    <p className="text-xs font-semibold uppercase tracking-wider text-brand">{cat.name[lang]}</p>
                     <h3 className="mt-2 text-lg font-bold leading-snug">{p.name[lang]}</h3>
-                    <p className="mt-2 text-sm leading-relaxed text-zinc-400">{p.desc[lang]}</p>
-                    <ul className="mt-4 space-y-1.5 text-sm text-zinc-300">
+                    <p className="mt-2 text-sm leading-relaxed text-subtle">{p.desc[lang]}</p>
+                    <ul className="mb-5 mt-4 space-y-1.5 text-sm text-muted">
                       {p.specs[lang].map((s) => (
                         <li key={s} className="flex gap-2">
-                          <CheckIcon className="mt-0.5 h-4 w-4 shrink-0 text-amber" />
+                          <CheckIcon className="mt-0.5 h-4 w-4 shrink-0 text-brand" />
                           {s}
                         </li>
                       ))}
                     </ul>
-                    <div className="mt-auto flex items-center justify-between gap-3 pt-5">
-                      <span className="text-sm font-semibold text-zinc-200">{c.price}</span>
+                    <div className="mt-auto flex items-center justify-between gap-3 border-t border-line pt-4">
+                      <span className="text-sm font-semibold text-fg">{c.price}</span>
                       <button type="button" onClick={() => ask(p.name[lang])} className="btn-primary !min-h-[44px] !px-4 !py-2 !text-sm">
                         {c.ask}
                         <ArrowRightIcon className="h-4 w-4" />
@@ -109,7 +111,7 @@ export default function Catalog({ lang, t }: { lang: Lang; t: Dict }) {
         <div className="reveal card mt-8 flex flex-col items-start justify-between gap-4 p-6 sm:flex-row sm:items-center">
           <div>
             <h3 className="text-lg font-bold">{c.notFoundTitle}</h3>
-            <p className="mt-1 text-sm text-zinc-400">{c.notFoundText}</p>
+            <p className="mt-1 text-sm text-subtle">{c.notFoundText}</p>
           </div>
           <a href={telegramMain} target="_blank" rel="noopener" className="btn-ghost shrink-0">
             <TelegramIcon className="h-5 w-5" />

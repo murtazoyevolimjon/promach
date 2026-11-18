@@ -10,17 +10,13 @@
 
 export type L = { uz: string; ru: string };
 
-export type CategoryId =
-  | "convection-small"
-  | "convection-large"
-  | "deck"
-  | "rotary"
-  | "mixer"
-  | "other";
+export type CategoryId = "convection" | "deck" | "rotary" | "mixer" | "steel";
 
 export interface Category {
   id: CategoryId;
   name: L;
+  /** Kategoriya tanlanganda filtr ostida chiqadigan qisqa izoh (ixtiyoriy) */
+  note?: L;
 }
 
 export interface Product {
@@ -33,19 +29,25 @@ export interface Product {
 }
 
 export const categories: Category[] = [
-  { id: "convection-small", name: { uz: "Konveksion pechlar 1–9 list", ru: "Конвекционные печи 1–9 противней" } },
-  { id: "convection-large", name: { uz: "Konveksion pechlar 10–32 list", ru: "Конвекционные печи 10–32 противня" } },
-  { id: "deck", name: { uz: "Elektr va gaz qavatli pechlar", ru: "Подовые печи (электро и газ)" } },
+  {
+    id: "convection",
+    name: { uz: "Ratsionli konveksion pechlar", ru: "Конвекционные печи" },
+    note: {
+      uz: "1 listdan 9 listgacha (kafe, kichik nonvoyxona) va 10 listdan 32 listgacha (sex, sanoat) modellar.",
+      ru: "Модели от 1 до 9 противней (кафе, мини-пекарня) и от 10 до 32 противней (цех, производство).",
+    },
+  },
+  { id: "deck", name: { uz: "Elektr va gaz pechlar", ru: "Электрические и газовые печи" } },
   { id: "rotary", name: { uz: "Rotatsion pechlar", ru: "Ротационные печи" } },
   { id: "mixer", name: { uz: "Xamir qorish mashinalari", ru: "Тестомесы и миксеры" } },
-  { id: "other", name: { uz: "Boshqa jihozlar", ru: "Другое оборудование" } },
+  { id: "steel", name: { uz: "Zanglamas stollar va vitrinalar", ru: "Нержавеющие столы и витрины" } },
 ];
 
 export const products: Product[] = [
-  // ---------- Konveksion (ratsionli) pechlar 1–9 list ----------
+  // ---------- Ratsionli konveksion pechlar: 1–9 list ----------
   {
     id: "konveksion-4-elektr",
-    category: "convection-small",
+    category: "convection",
     name: { uz: "Konveksion pech, 4 listli (elektr)", ru: "Конвекционная печь на 4 противня (электро)" },
     desc: {
       uz: "Kafe, qandolatxona va kichik nonvoyxona uchun ixcham pech: bulochka, pirog, pechenye.",
@@ -58,7 +60,7 @@ export const products: Product[] = [
   },
   {
     id: "konveksion-5-elektr",
-    category: "convection-small",
+    category: "convection",
     name: { uz: "Konveksion pech, 5 listli (elektr)", ru: "Конвекционная печь на 5 противней (электро)" },
     desc: {
       uz: "Issiq havo bir tekis aylanadi — barcha listlarda mahsulot bir xil pishadi.",
@@ -71,7 +73,7 @@ export const products: Product[] = [
   },
   {
     id: "konveksion-8-elektr",
-    category: "convection-small",
+    category: "convection",
     name: { uz: "Konveksion pech, 8 listli (elektr)", ru: "Конвекционная печь на 8 противней (электро)" },
     desc: {
       uz: "Ishlab chiqarishi o'sib borayotgan nonvoyxona va oshxonalar uchun.",
@@ -84,7 +86,7 @@ export const products: Product[] = [
   },
   {
     id: "konveksion-9-gaz",
-    category: "convection-small",
+    category: "convection",
     name: { uz: "Konveksion pech, 9 listli (gaz)", ru: "Конвекционная печь на 9 противней (газ)" },
     desc: {
       uz: "Gazda ishlaydi — elektr quvvati cheklangan joylar uchun tejamkor yechim.",
@@ -97,7 +99,7 @@ export const products: Product[] = [
   },
   {
     id: "konveksion-6-kombi",
-    category: "convection-small",
+    category: "convection",
     name: { uz: "Konveksion pech, 6 listli (restoran uchun)", ru: "Конвекционная печь на 6 уровней (для ресторана)" },
     desc: {
       uz: "Restoran oshxonasi uchun: go'sht, sabzavot, garnir va pishiriqlar.",
@@ -109,10 +111,10 @@ export const products: Product[] = [
     },
   },
 
-  // ---------- Konveksion pechlar 10–32 list ----------
+  // ---------- Ratsionli konveksion pechlar: 10–32 list ----------
   {
     id: "konveksion-10-elektr",
-    category: "convection-large",
+    category: "convection",
     name: { uz: "Konveksion pech, 10 listli (elektr)", ru: "Конвекционная печь на 10 противней (электро)" },
     desc: {
       uz: "O'rta nonvoyxona va qandolat sexi uchun ishonchli ish quroli.",
@@ -125,7 +127,7 @@ export const products: Product[] = [
   },
   {
     id: "konveksion-12-aravacha",
-    category: "convection-large",
+    category: "convection",
     name: { uz: "Konveksion pech, 12 listli (aravachali)", ru: "Конвекционная печь на 12 противней (с тележкой)" },
     desc: {
       uz: "Aravacha bilan yuklanadi — listlarni birma-bir qo'yib o'tirish shart emas.",
@@ -138,7 +140,7 @@ export const products: Product[] = [
   },
   {
     id: "konveksion-16",
-    category: "convection-large",
+    category: "convection",
     name: { uz: "Konveksion pech, 16 listli", ru: "Конвекционная печь на 16 противней" },
     desc: {
       uz: "Kunlik katta hajmdagi non va pishiriq ishlab chiqarish uchun.",
@@ -151,7 +153,7 @@ export const products: Product[] = [
   },
   {
     id: "konveksion-20",
-    category: "convection-large",
+    category: "convection",
     name: { uz: "Konveksion pech, 20 listli", ru: "Конвекционная печь на 20 противней" },
     desc: {
       uz: "Sanoat nonvoyxonalari va katta oshxonalar uchun.",
@@ -164,7 +166,7 @@ export const products: Product[] = [
   },
   {
     id: "konveksion-32",
-    category: "convection-large",
+    category: "convection",
     name: { uz: "Sanoat konveksion pechi, 32 listli", ru: "Промышленная конвекционная печь на 32 противня" },
     desc: {
       uz: "Eng katta hajmlar uchun: bir siklda ko'p mahsulot, bir xil sifat.",
@@ -176,7 +178,7 @@ export const products: Product[] = [
     },
   },
 
-  // ---------- Qavatli (podovye) pechlar ----------
+  // ---------- Elektr va gaz (qavatli) pechlar ----------
   {
     id: "qavatli-1-elektr",
     category: "deck",
@@ -351,10 +353,10 @@ export const products: Product[] = [
     },
   },
 
-  // ---------- Boshqa jihozlar ----------
+  // ---------- Zanglamas stollar, vitrinalar va shkaflar ----------
   {
     id: "vitrina-qandolat",
-    category: "other",
+    category: "steel",
     name: { uz: "Qandolat vitrinasi (sovutgichli)", ru: "Кондитерская витрина (холодильная)" },
     desc: {
       uz: "Tort va desertlarni chiroyli ko'rsatadi va kerakli haroratda saqlaydi.",
@@ -367,7 +369,7 @@ export const products: Product[] = [
   },
   {
     id: "sovutgich-shkaf",
-    category: "other",
+    category: "steel",
     name: { uz: "Sovutgich shkaf, 2 eshikli", ru: "Холодильный шкаф, 2 двери" },
     desc: {
       uz: "Restoran va oshxona uchun mahsulotlarni saqlash shkafi.",
@@ -380,7 +382,7 @@ export const products: Product[] = [
   },
   {
     id: "rasstoyka-shkaf",
-    category: "other",
+    category: "steel",
     name: { uz: "Tindirish (rasstoyka) shkafi", ru: "Расстоечный шкаф" },
     desc: {
       uz: "Xamirni kerakli harorat va namlikda tindiradi — non yaxshi ko'tariladi.",
@@ -393,7 +395,7 @@ export const products: Product[] = [
   },
   {
     id: "ish-stoli",
-    category: "other",
+    category: "steel",
     name: { uz: "Zanglamaydigan po'lat ish stoli", ru: "Стол производственный из нержавеющей стали" },
     desc: {
       uz: "Oshxona va sex uchun mustahkam, gigiyenik ish stoli.",
@@ -406,7 +408,7 @@ export const products: Product[] = [
   },
   {
     id: "aravacha-stellaj",
-    category: "other",
+    category: "steel",
     name: { uz: "List uchun aravacha-stellaj", ru: "Тележка-стеллаж для противней" },
     desc: {
       uz: "Listlarni sex ichida qulay tashish va saqlash uchun.",

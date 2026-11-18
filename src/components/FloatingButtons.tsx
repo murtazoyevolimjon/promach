@@ -20,9 +20,9 @@ export default function FloatingButtons({ t }: { t: Dict["floating"] }) {
         href={`tel:${phoneMain.tel}`}
         aria-label={t.call}
         title={t.call}
-        className="relative flex h-14 w-14 items-center justify-center rounded-full bg-amber text-ink shadow-glow transition-transform hover:scale-105"
+        className="relative flex h-14 w-14 items-center justify-center rounded-full bg-accent text-accent-fg shadow-glow transition-transform hover:scale-105"
       >
-        <span aria-hidden className="absolute inset-0 animate-ping rounded-full bg-amber/40 [animation-duration:2.4s] motion-reduce:hidden" />
+        <span aria-hidden className="absolute inset-0 animate-ping rounded-full bg-accent/40 [animation-duration:2.4s] motion-reduce:hidden" />
         <PhoneIcon className="relative h-6 w-6" />
       </a>
     </div>

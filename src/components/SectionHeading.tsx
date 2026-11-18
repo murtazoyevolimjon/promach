@@ -14,7 +14,7 @@ export default function SectionHeading({
   return (
     <div className={`reveal ${center ? "mx-auto text-center" : ""} max-w-3xl`}>
       <p className={`eyebrow ${center ? "justify-center" : ""}`}>
-        <span className="h-px w-6 bg-amber" aria-hidden />
+        <span className="h-px w-6 bg-accent" aria-hidden />
         {eyebrow}
       </p>
       <h2 id={id} className="h2">

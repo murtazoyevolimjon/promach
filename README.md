@@ -32,7 +32,10 @@ PROMACH/
 │  │  ├─ Footer.tsx, Logo.tsx, Icons.tsx, RevealObserver.tsx …
 │  │  └─ sections/            ← Hero, Advantages, Catalog, WhyUs, Process,
 │  │                            Gallery, Reviews, Faq, Visit, Contact
+│  ├─ components/ThemeToggle.tsx ← ☀️/🌙 kunduzgi/tungi rejim
 │  ├─ lib/jsonld.ts           ← JSON-LD: Store (LocalBusiness), Product, FAQPage
+│  ├─ lib/theme.ts            ← rejim sozlamalari
+│  (ranglar: src/app/globals.css dagi CSS o'zgaruvchilari — :root kunduzgi, .dark tungi)
 │  └─ app/
 │     ├─ [lang]/layout.tsx    ← <html lang>, meta teglar, OG, hreflang, canonical
 │     ├─ [lang]/page.tsx      ← sahifa (bo'limlar ketma-ketligi)
@@ -41,6 +44,7 @@ PROMACH/
 │     ├─ robots.ts            ← /robots.txt
 │     ├─ sitemap.ts           ← /sitemap.xml (hreflang bilan)
 │     └─ icon.svg             ← favicon (shesternya)
+├─ supabase/migrations/       ← Supabase "leads" jadvali (SQL)
 ├─ .env.example               ← sozlamalar namunasi
 └─ next.config.mjs
 ```
@@ -82,6 +86,22 @@ Production tekshiruvi: `npm run build && npm start`.
 4. Ikkalasini `.env.local` / Vercel env'ga yozing. Token faqat serverda qoladi.
 
 Token bo'lmasa forma **demo rejimda** ishlaydi: foydalanuvchiga muvaffaqiyat ko'rsatiladi, so'rov server logiga yoziladi.
+
+## 4.1. Supabase (ixtiyoriy — so'rovlarni bazada saqlash)
+
+> Supabase sayt **hostingi emas**: sayt Vercel'da turadi, Supabase esa formadan kelgan so'rovlarni
+> `leads` jadvaliga saqlaydi. Telegram ishlamay qolsa ham birorta mijoz yo'qolmaydi.
+
+1. supabase.com → **New project** (region: Frankfurt yoki eng yaqini).
+2. **SQL Editor** → `supabase/migrations/20261118000000_create_leads.sql` faylining matnini qo'ying → **Run**.
+3. **Project Settings → API Keys**:
+   - Project URL → `SUPABASE_URL`
+   - **Secret** kalit (`sb_secret_…`, yoki eski "service_role") → `SUPABASE_SECRET_KEY`
+4. Ikkalasini `.env.local` va Vercel → Environment Variables'ga yozing → Redeploy.
+5. So'rovlarni ko'rish: Supabase → **Table Editor → leads**. `status` ustunini `contacted` / `done` qilib belgilab borishingiz mumkin.
+
+**Xavfsizlik:** jadvalda RLS yoqilgan va ochiq policy yo'q, shuning uchun ochiq (publishable/anon) kalit bilan
+na o'qib, na yozib bo'ladi. Secret kalitni hech qachon `NEXT_PUBLIC_` bilan boshlamang va kodga yozmang.
 
 ## 5. Google Search Console va Yandex Webmaster
 

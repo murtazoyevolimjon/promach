@@ -6,10 +6,18 @@ import { phoneMain } from "@/data/site";
 import type { Dict, Lang } from "@/i18n";
 import Logo from "./Logo";
 import OpenStatus from "./OpenStatus";
+import ThemeToggle from "./ThemeToggle";
 import { CloseIcon, MenuIcon, PhoneIcon } from "./Icons";
 
 const navOrder = ["catalog", "why", "process", "faq", "visit", "contact"] as const;
 
+/**
+ * Sticky header (glassmorphism).
+ *  mobil:      logo · rejim · til · menyu
+ *  sm–lg:      + ochiq/yopiq · "Qo'ng'iroq qilish"
+ *  lg:         + menyu havolalari (qo'ng'iroq tugmasi ixcham)
+ *  xl+:        + ochiq/yopiq · telefon raqami tugmada
+ */
 export default function Header({ lang, t }: { lang: Lang; t: Dict }) {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -29,24 +37,22 @@ export default function Header({ lang, t }: { lang: Lang; t: Dict }) {
     return () => window.removeEventListener("keydown", onKey);
   }, [open]);
 
-  const other: Lang = lang === "uz" ? "ru" : "uz";
-
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-50 transition-colors duration-300 ${
-        scrolled || open ? "border-b border-white/[0.07] bg-ink/85 backdrop-blur-md" : "bg-transparent"
+      className={`fixed inset-x-0 top-0 z-50 transition-[background-color,border-color,box-shadow] duration-300 ${
+        scrolled || open ? "border-b border-line/80 bg-page/75 shadow-soft backdrop-blur-xl" : "border-b border-transparent"
       }`}
     >
-      <div className="container-x flex h-16 items-center justify-between gap-4 lg:h-20">
-        <Link href={`/${lang}`} aria-label={t.header.home} className="shrink-0">
+      <div className="container-x flex h-16 items-center justify-between gap-3 lg:h-20">
+        <Link href={`/${lang}`} aria-label={t.header.home} className="shrink-0 text-fg">
           <Logo />
         </Link>
 
         <nav aria-label="Main" className="hidden lg:block">
-          <ul className="flex items-center gap-5 text-sm font-semibold text-zinc-300 xl:gap-7">
+          <ul className="flex items-center gap-5 text-sm font-semibold text-muted xl:gap-6">
             {navOrder.map((k) => (
               <li key={k}>
-                <a href={`#${k}`} className="whitespace-nowrap transition-colors hover:text-amber">
+                <a href={`#${k}`} className="whitespace-nowrap transition-colors hover:text-brand">
                   {t.nav[k]}
                 </a>
               </li>
@@ -54,45 +60,47 @@ export default function Header({ lang, t }: { lang: Lang; t: Dict }) {
           </ul>
         </nav>
 
-        <div className="flex items-center gap-2 sm:gap-3">
-          <OpenStatus t={t.status} className="hidden 2xl:inline-flex" />
-          <a
-            href={`tel:${phoneMain.tel}`}
-            className="hidden whitespace-nowrap text-sm font-bold text-white transition-colors hover:text-amber md:block lg:hidden xl:block"
-          >
-            {phoneMain.display}
-          </a>
+        <div className="flex items-center gap-2">
+          <OpenStatus t={t.status} compact className="hidden sm:inline-flex lg:hidden xl:inline-flex" />
+
+          <ThemeToggle label={t.header.theme} />
 
           {/* Til almashtirgich */}
-          <div role="group" aria-label={t.header.langLabel} className="flex rounded-lg border border-white/10 p-0.5 text-xs font-bold">
+          <div role="group" aria-label={t.header.langLabel} className="glass flex h-10 items-center rounded-xl p-0.5 text-xs font-bold">
             {(["uz", "ru"] as const).map((l) =>
               l === lang ? (
-                <span key={l} aria-current="true" className="rounded-md bg-white/10 px-2 py-1.5 text-white">
-                  {l === "uz" ? "UZ" : "RU"}
+                <span key={l} aria-current="true" className="rounded-lg bg-accent px-2.5 py-1.5 text-accent-fg">
+                  {l === "uz" ? "O'Z" : "RU"}
                 </span>
               ) : (
                 <Link
                   key={l}
-                  href={`/${other}`}
+                  href={`/${l}`}
                   hrefLang={l}
                   lang={l}
-                  className="rounded-md px-2 py-1.5 text-zinc-400 transition-colors hover:text-white"
+                  className="rounded-lg px-2.5 py-1.5 text-subtle transition-colors hover:text-fg"
                   aria-label={l === "uz" ? "O'zbekcha" : "Русский"}
                 >
-                  {l === "uz" ? "UZ" : "RU"}
+                  {l === "uz" ? "O'Z" : "RU"}
                 </Link>
               )
             )}
           </div>
 
-          <a href={`tel:${phoneMain.tel}`} className="btn-primary hidden !min-h-[40px] whitespace-nowrap !px-4 !py-2 !text-sm sm:inline-flex">
+          {/* Qo'ng'iroq: sm–lg matnli, lg ixcham, xl+ telefon raqami bilan */}
+          <a
+            href={`tel:${phoneMain.tel}`}
+            aria-label={`${t.header.call}: ${phoneMain.display}`}
+            className="btn-primary hidden !min-h-[40px] whitespace-nowrap !px-4 !py-2 !text-sm sm:inline-flex"
+          >
             <PhoneIcon className="h-4 w-4" />
-            {t.header.call}
+            <span className="lg:hidden">{t.header.call}</span>
+            <span className="hidden xl:inline">{phoneMain.display}</span>
           </a>
 
           <button
             type="button"
-            className="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-white/10 lg:hidden"
+            className="icon-btn !h-10 !w-10 lg:hidden"
             aria-expanded={open}
             aria-controls="mobile-menu"
             aria-label={open ? t.header.closeMenu : t.header.menu}
@@ -104,7 +112,7 @@ export default function Header({ lang, t }: { lang: Lang; t: Dict }) {
       </div>
 
       {/* Mobil menyu */}
-      <div id="mobile-menu" hidden={!open} className="border-t border-white/[0.07] bg-ink lg:hidden">
+      <div id="mobile-menu" hidden={!open} className="border-t border-line bg-page/95 backdrop-blur-xl lg:hidden">
         <nav aria-label="Mobile" className="container-x py-4">
           <ul className="grid gap-1 text-base font-semibold">
             {navOrder.map((k) => (
@@ -112,14 +120,14 @@ export default function Header({ lang, t }: { lang: Lang; t: Dict }) {
                 <a
                   href={`#${k}`}
                   onClick={() => setOpen(false)}
-                  className="block rounded-xl px-3 py-3 text-zinc-200 hover:bg-white/5 hover:text-amber"
+                  className="block rounded-xl px-3 py-3 text-fg hover:bg-surface hover:text-brand"
                 >
                   {t.nav[k]}
                 </a>
               </li>
             ))}
           </ul>
-          <div className="mt-4 flex flex-col gap-3 border-t border-white/[0.07] pt-4">
+          <div className="mt-4 flex flex-col gap-3 border-t border-line pt-4">
             <OpenStatus t={t.status} className="self-start" />
             <a href={`tel:${phoneMain.tel}`} className="btn-primary w-full">
               <PhoneIcon className="h-5 w-5" />

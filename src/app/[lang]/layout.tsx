@@ -3,6 +3,7 @@ import { Manrope } from "next/font/google";
 import { notFound } from "next/navigation";
 import "../globals.css";
 import Analytics from "@/components/Analytics";
+import { THEME_COLORS, THEME_STORAGE_KEY } from "@/lib/theme";
 import { site } from "@/data/site";
 import { getDict, hreflang, htmlLang, isLang, langs } from "@/i18n";
 
@@ -18,8 +19,10 @@ export function generateStaticParams() {
   return langs.map((lang) => ({ lang }));
 }
 
+const themeInitScript = `(function(){var d=document.documentElement;d.classList.add('js');try{if(localStorage.getItem('${THEME_STORAGE_KEY}')==='dark'){d.classList.add('dark')}}catch(e){}})()`;
+
 export const viewport: Viewport = {
-  themeColor: "#0A0A0B",
+  themeColor: THEME_COLORS.light, // tungi rejimda ThemeToggle uni yangilaydi
   width: "device-width",
   initialScale: 1,
 };
@@ -86,8 +89,12 @@ export default async function LangLayout({
   return (
     <html lang={htmlLang[lang]} className={manrope.variable} suppressHydrationWarning>
       <head>
-        {/* Scroll-reveal animatsiyasi faqat JS ishlaganda yoqiladi */}
-        <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
+        {/*
+          Sahifa chizilishidan OLDIN ishlaydi:
+          1) "js" klassi — scroll-reveal animatsiyasi faqat JS ishlaganda yoqiladi;
+          2) saqlangan rejim (tungi/kunduzgi) — oq ekran "miltillashi" bo'lmasligi uchun.
+        */}
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
       </head>
       <body>
         {children}

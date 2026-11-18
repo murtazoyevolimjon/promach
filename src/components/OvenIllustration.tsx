@@ -63,7 +63,7 @@ export default function OvenIllustration({ title }: { title: string }) {
       {/* Oyoqlar */}
       <rect x="64" y="400" width="18" height="26" rx="4" fill="#27272a" />
       <rect x="338" y="400" width="18" height="26" rx="4" fill="#27272a" />
-      <rect x="40" y="420" width="340" height="10" rx="5" fill="#000" opacity=".35" />
+      <ellipse cx="210" cy="430" rx="180" ry="9" fill="#000" opacity=".18" />
     </svg>
   );
 }
