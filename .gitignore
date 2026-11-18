@@ -1,0 +1,13 @@
+node_modules
+.next
+out
+# Maxfiy sozlamalar (bot token va h.k.) — HECH QACHON GitHub'ga chiqmaydi
+.env
+.env.*
+.env*.local
+# Faqat bo'sh namuna fayli repoga kiradi
+!.env.example
+next-env.d.ts
+*.tsbuildinfo
+.vercel
+.netlify
