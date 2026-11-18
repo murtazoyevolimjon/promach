@@ -1,7 +1,7 @@
 # PROMACH.uz — sayt
 
 Nonvoyxona, qandolatchilik, restoran va oshxona jihozlari do'koni uchun ikki tilli (O'zbekcha / Русский) landing sayt.
-**Next.js 15 (App Router) + TypeScript + Tailwind CSS.** Sahifalar oldindan statik HTML qilib yaratiladi (SSG): tez yuklanadi, SEO uchun qulay.
+**Next.js 16 (App Router) + TypeScript + Tailwind CSS.** Sahifalar oldindan statik HTML qilib yaratiladi (SSG): tez yuklanadi, SEO uchun qulay.
 
 - `https://promach.uz/uz` — o'zbekcha (asosiy, `/` shu yerga yo'naltiriladi)
 - `https://promach.uz/ru` — ruscha
@@ -47,7 +47,7 @@ PROMACH/
 
 ## 2. Ishga tushirish (lokal)
 
-Node.js 18.18+ kerak (20 yoki 22 tavsiya etiladi).
+Node.js 20.9+ kerak (22 yoki 24 tavsiya etiladi).
 
 ```bash
 npm install
